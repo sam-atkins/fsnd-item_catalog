@@ -69,8 +69,16 @@ def login():
 
 
 # new category
-@app.route('/category/new')
+@app.route('/category/new', methods=['GET', 'POST'])
 def newCategory():
+    if request.method == 'POST':
+        newCategory = Category(name=request.form['name'])
+        session.add(newCategory)
+        session.commit()
+        # add flash message
+
+        # change redirect
+        return redirect(url_for('index'))
     return render_template('/newcategory.html')
 
 
