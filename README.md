@@ -8,6 +8,7 @@ This project is part of my **Udacity FullStack NanoDegree**.
 
 * OAuth authentication and authorisation for users
 * Local permission systems to create, edit and delete items
+* API: JSON endpoints 
 
 ### Built with:
 
@@ -61,6 +62,3 @@ $ exit
 $ vagrant halt
 ```
 
-
-
-#readme
