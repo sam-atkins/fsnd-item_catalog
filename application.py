@@ -32,10 +32,26 @@ app = Flask(__name__)
 # Home /index
 @app.route('/')
 @app.route('/catalogue')
-@app.route('/category')
 def index():
-    # categories = session.query(Category).order_by(asc(Category.name))
-    return render_template('index.html')
+    categories = session.query(Category).order_by(asc(Category.name))
+    return render_template('index.html', categories=categories)
+
+
+# show books in one category
+@app.route('/category/<int:category_id>/')
+def showBooks(category_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    books = session.query(Book).filter_by(category_id=category_id).all()
+    return render_template('/categorybooks.html',
+                           category_id=category_id, category=category,
+                           books=books)
+
+
+# display one book
+@app.route('/book/<int:book_id>')
+def theBook(book_id):
+    book = session.query(Book).filter_by(id=book_id).one()
+    return render_template('/book.html', book=book)
 
 
 # login
@@ -62,13 +78,6 @@ def editCategory(category_id):
 def deleteCategory(category_id):
     deletedCategory = session.query(Category).filter_by(id=category_id).one()
     return render_template('/deletecategory.html', category=deletedCategory)
-
-
-# show books in one category
-@app.route('/category/<int:category_id>/')
-@app.route('/category/<int:category_id>/book')
-def showBooks():
-    return "This is the category page showing the book(s)"
 
 
 # new book
