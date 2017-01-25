@@ -4,7 +4,8 @@ Application docstrings here
 
 # [START Imports]
 # Flask
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
+# from flask_wtf.csrf import CSRFProtect
 
 # SQLAlchemy
 from sqlalchemy import create_engine, asc
@@ -25,6 +26,13 @@ session = DBSession()
 
 
 # Flask
+# csrf = CSRFProtect()
+
+
+# def create_app():
+#     app = Flask(__name__)
+#     csrf.init_app(app)
+
 app = Flask(__name__)
 
 
@@ -81,9 +89,25 @@ def deleteCategory(category_id):
 
 
 # new book
-@app.route('/book/new')
+@app.route('/book/new', methods=['GET', 'POST'])
 def newBook():
-    return render_template('/newbook.html')
+    categories = session.query(Category).order_by(asc(Category.name))
+    if request.method == 'POST':
+        c = request.form['category']
+        c_submitted = session.query(Category).filter(
+            Category.name == c).first()
+        newBook = Book(name=request.form['name'],
+                       description=request.form['description'],
+                       price=request.form['price'],
+                       author=request.form['author'],
+                       category=c_submitted)
+        session.add(newBook)
+        session.commit()
+        # add flash message; also to redirect page to display msg
+
+        # amend redirect
+        return redirect(url_for('index'))
+    return render_template('/newbook.html', categories=categories)
 
 
 # edit book
