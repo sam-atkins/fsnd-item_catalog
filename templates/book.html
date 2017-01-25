@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div>
+    <p>This is the page listing all books in a category</p>
+</div>
+
+<div>
+    <h2>{{book.name}}</h2>
+    <h3>By: {{book.author}}</h3>
+    <p>Price: £{{book.price}}</p>
+    <p>Description: {{book.description}}</p>
+
+    <a href="{{url_for('showBooks', category_id=book.category_id)}}">Go back to category</a>
+    <br>
+    <br>
+    <a href="{{url_for('index')}}">Home</a>
+</div>
+
+{% include "footer.html" %}
+
+{% endblock content %}

@@ -6,6 +6,17 @@
     <p>This is the home page.</p>
 </div>
 
+<div>
+    <h1>Categories:</h1>
+
+    {% for category in categories  %}
+        <a href="{{url_for('showBooks', category_id=category.id)}}">{{category.name}}</a>
+        <br>
+        <br>
+    {% endfor %}
+
+</div>
+
 {% include "footer.html" %}
 
 {% endblock content %}
