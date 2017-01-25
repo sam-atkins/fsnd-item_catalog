@@ -1,4 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
+    {% include "header.html" %}
+    
     this is the new book page
+    <br>
+    <br>
+
+    <form action="#" method="post">
+        <div>
+            <label for="name">Title:</label>
+            <input type="text" maxlength="250" name="name" placeholder="Book title">
+
+            <label for="author">Author:</label>
+            <input type="text" maxlength="250" name="author" placeholder="Book author">
+
+            <label for="price">£ Price:</label>
+            <input type="text" maxlength="8" name="price" placeholder="Price in £">
+
+            <label for="description">Description:</label>
+            <input type="text" maxlength="250" name="description" placeholder="Book description">
+            
+            <label>Book Category</label>
+                <select name="category" id="categoryList">
+                    {% for category in categories  %}
+                    <option value="{{category.name}}">{{category.name}}</option>
+                    {% endfor %}
+                </select>
+            <button type="submit">Create</button>
+        </div>
+    </form>
+
+    <br>
+    <a href="{{url_for('index')}}">Home</a>
+    <br>
+
+    {% include "footer.html" %}
 {% endblock content %}
