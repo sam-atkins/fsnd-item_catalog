@@ -7,11 +7,11 @@ Used for dev purposes
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Base, Category, Book
+from database_setup import Base, User, Category, Book
 # [END imports]
 
 # [START Db engine and session]
-engine = create_engine('sqlite:///cataloguebooks.db')
+engine = create_engine('sqlite:///cataloguebooksv2.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 
@@ -29,16 +29,27 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 # [END Db engine and session]
 
+
+# Add User
+user1 = User(name="Mr. Clement DuBuque", email="CDubuque@Ullrich.net")
+session.add(user1)
+session.commit()
+
+user2 = User(name="Tressie Bernier", email="Tressie.Bernier@gmail.com")
+session.add(user2)
+session.commit()
+
+
 # Add categories
-category1 = Category(name="Autobiography")
+category1 = Category(name="Autobiography", user=user1)
 session.add(category1)
 session.commit()
 
-category2 = Category(name="Web Development")
+category2 = Category(name="Web Development", user=user1)
 session.add(category2)
 session.commit()
 
-category3 = Category(name="Science Fiction")
+category3 = Category(name="Science Fiction", user=user2)
 session.add(category3)
 session.commit()
 
@@ -51,7 +62,7 @@ bookItem1 = Book(name="Steve Jobs: A Biography",
                  "is instructive and cautionary, filled with lessons about "
                  "innovation, character, leadership, and values.",
                  author="Walter Isaacson",
-                 price="9.99", category=category1)
+                 price="9.99", category=category1, user=user1)
 session.add(bookItem1)
 session.commit()
 
@@ -59,7 +70,8 @@ session.commit()
 # Add web dev books
 bookItem2 = Book(name="Automate the Boring Stuff",
                  description="Learn Python 3...",
-                 author="Al Sweigart", price="14.99", category=category2)
+                 author="Al Sweigart", price="14.99", category=category2,
+                 user=user1)
 session.add(bookItem2)
 session.commit()
 
@@ -72,6 +84,6 @@ bookItem3 = Book(name="Wool",
                  "Like going outside. Never mention you might like going "
                  "outside.",
                  author="Hugh Howey",
-                 price="3.99", category=category3)
+                 price="3.99", category=category3, user=user2)
 session.add(bookItem3)
 session.commit()
