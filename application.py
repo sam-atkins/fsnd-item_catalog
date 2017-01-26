@@ -5,11 +5,14 @@ Application docstrings here
 # [START Imports]
 # Flask
 from flask import Flask, render_template, request, redirect, url_for, flash
-# from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect
 
 # SQLAlchemy
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
+
+# Helpers
+from forms import CategoryForm, BookForm
 
 # Db
 from database_setup import Base, Category, Book
@@ -26,14 +29,13 @@ session = DBSession()
 
 
 # Flask
-# csrf = CSRFProtect()
-
-
-# def create_app():
-#     app = Flask(__name__)
-#     csrf.init_app(app)
-
 app = Flask(__name__)
+csrf = CSRFProtect()
+
+
+def create_app():
+    app = Flask(__name__)
+    csrf.init_app(app)
 
 
 # [START Routes]
@@ -71,7 +73,8 @@ def login():
 # new category
 @app.route('/category/new', methods=['GET', 'POST'])
 def newCategory():
-    if request.method == 'POST':
+    form = CategoryForm(request.form)
+    if request.method == 'POST' and form.validate():
         newCategory = Category(name=request.form['name'])
         session.add(newCategory)
         session.commit()
@@ -79,7 +82,8 @@ def newCategory():
 
         # change redirect
         return redirect(url_for('index'))
-    return render_template('/newcategory.html')
+    return render_template('/newcategory.html', form=form)
+    # return render_template('/newcategoryv2.html', form=form)
 
 
 # edit category
@@ -113,7 +117,8 @@ def deleteCategory(category_id):
 @app.route('/book/new', methods=['GET', 'POST'])
 def newBook():
     categories = session.query(Category).order_by(asc(Category.name))
-    if request.method == 'POST':
+    form = BookForm(request.form)
+    if request.method == 'POST' and form.validate():
         c = request.form['category']
         c_submitted = session.query(Category).filter(
             Category.name == c).first()
@@ -129,7 +134,30 @@ def newBook():
 
         # amend redirect
         return redirect(url_for('index'))
-    return render_template('/newbook.html', categories=categories)
+    return render_template('/newbookv2.html', categories=categories, form=form)
+
+
+# new book - no form validation
+# @app.route('/book/new', methods=['GET', 'POST'])
+# def newBook():
+#     categories = session.query(Category).order_by(asc(Category.name))
+#     if request.method == 'POST':
+#         c = request.form['category']
+#         c_submitted = session.query(Category).filter(
+#             Category.name == c).first()
+#         newBook = Book(name=request.form['name'],
+#                        description=request.form['description'],
+#                        price=request.form['price'],
+#                        author=request.form['author'],
+#                        category=c_submitted)
+#         session.add(newBook)
+#         session.commit()
+#         flash('New Book %s by %s Successfully Created' %
+#               (newBook.name, newBook.author))
+
+#         # amend redirect
+#         return redirect(url_for('index'))
+#     return render_template('/newbook.html', categories=categories)
 
 
 # edit book

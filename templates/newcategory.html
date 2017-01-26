@@ -2,18 +2,21 @@
 {% block content %}
     this is the new category page
     <br>
+    <a href="{{url_for('index')}}">Home</a>
     <br>
-    <form action="#" method="post">
-        <div>
-            <label for="name">New Category:</label>
-            <input type="text" maxlength="250" name="name" placeholder="Category name">
 
-            <button type="submit">Create</button>
-        </div>
+    <form method="POST">
+        <div>New Category: {{ form.name(class="form_placeholder") }}</div>
+
+        {% if form.name.errors %}
+            <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+        
+        <button type="submit">Create</button>
+        <a href="{{url_for('index')}}">Cancel</a>
     </form>
 
     <br>
-    <a href="{{url_for('index')}}">Home</a>
     <br>
     
 
