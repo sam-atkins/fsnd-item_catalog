@@ -4,7 +4,7 @@ Application docstrings here
 
 # [START Imports]
 # Flask
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 # from flask_wtf.csrf import CSRFProtect
 
 # SQLAlchemy
@@ -75,7 +75,7 @@ def newCategory():
         newCategory = Category(name=request.form['name'])
         session.add(newCategory)
         session.commit()
-        # add flash message
+        flash('New Category %s Successfully Created' % newCategory.name)
 
         # change redirect
         return redirect(url_for('index'))
@@ -111,7 +111,8 @@ def newBook():
                        category=c_submitted)
         session.add(newBook)
         session.commit()
-        # add flash message; also to redirect page to display msg
+        flash('New Book %s by %s Successfully Created' %
+              (newBook.name, newBook.author))
 
         # amend redirect
         return redirect(url_for('index'))
