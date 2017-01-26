@@ -1,5 +1,5 @@
 """
-Helper methods to validate form entry by users
+Classes to enable helper methods to validate form entry by users
 """
 
 # [START Imports]
@@ -21,7 +21,7 @@ class BookForm(Form):
     """
     name = StringField('name', [validators.Length(min=1, max=250)])
     description = StringField(
-        'description', [validators.Length(min=5, max=250)])
+        'description', [validators.Length(min=5, max=750)])
     author = StringField('author', [validators.Length(min=5, max=250)])
     price = StringField('price', [validators.Length(min=1, max=8)])
 # [END Form Validation]
