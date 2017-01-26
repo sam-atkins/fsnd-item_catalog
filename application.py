@@ -83,7 +83,6 @@ def newCategory():
         # change redirect
         return redirect(url_for('index'))
     return render_template('/newcategory.html', form=form)
-    # return render_template('/newcategoryv2.html', form=form)
 
 
 # edit category
@@ -134,30 +133,7 @@ def newBook():
 
         # amend redirect
         return redirect(url_for('index'))
-    return render_template('/newbookv2.html', categories=categories, form=form)
-
-
-# new book - no form validation
-# @app.route('/book/new', methods=['GET', 'POST'])
-# def newBook():
-#     categories = session.query(Category).order_by(asc(Category.name))
-#     if request.method == 'POST':
-#         c = request.form['category']
-#         c_submitted = session.query(Category).filter(
-#             Category.name == c).first()
-#         newBook = Book(name=request.form['name'],
-#                        description=request.form['description'],
-#                        price=request.form['price'],
-#                        author=request.form['author'],
-#                        category=c_submitted)
-#         session.add(newBook)
-#         session.commit()
-#         flash('New Book %s by %s Successfully Created' %
-#               (newBook.name, newBook.author))
-
-#         # amend redirect
-#         return redirect(url_for('index'))
-#     return render_template('/newbook.html', categories=categories)
+    return render_template('/newbook.html', categories=categories, form=form)
 
 
 # edit book
