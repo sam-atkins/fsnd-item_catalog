@@ -3,9 +3,20 @@ Application docstrings here
 """
 
 # [START Imports]
-# Flask
+# Flask & others
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
+from flask import session as login_session
+from flask import make_response
+import random
+import string
+import httplib2
+import json
+import requests
+
+# OAuth
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
 
 # SQLAlchemy
 from sqlalchemy import create_engine, asc
@@ -13,14 +24,20 @@ from sqlalchemy.orm import sessionmaker
 
 # Helpers
 from forms import CategoryForm, BookForm
+from userhelp import createUser, getUserID, getUserID
 
 # Db
-from database_setup import Base, Category, Book
+from database_setup import Base, User, Category, Book
 # [END Imports]
 
 
+CLIENT_ID = json.loads(
+    open('client_secrets.json', 'r').read())['web']['client_id']
+APPLICATION_NAME = "Book Catalogue App"
+
+
 # [START Database set-up]
-engine = create_engine('sqlite:///cataloguebooks.db')
+engine = create_engine('sqlite:///cataloguebooksv2.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -39,6 +56,16 @@ def create_app():
 
 
 # [START Routes]
+# login
+@app.route('/login')
+def showLogin():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
+    login_session['state'] = state
+    # return "The current session state is %s" % login_session['state']
+    return render_template('login.html', STATE=state)
+
+
 # Home /index
 @app.route('/')
 @app.route('/catalogue')
@@ -62,12 +89,6 @@ def showBooks(category_id):
 def theBook(book_id):
     book = session.query(Book).filter_by(id=book_id).one()
     return render_template('/book.html', book=book)
-
-
-# login
-@app.route('/login')
-def login():
-    return render_template('/login.html')
 
 
 # new category
