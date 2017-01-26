@@ -1,21 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-    this is the edit category page.
-    <br>
-    <br>
-    <form action="#" method="post">
-        <div>
-            <label for="name">Edit Category:</label>
-            <textarea class="form-control" maxlength="250" rows="1" name="category">{{category.name}}</textarea>
-
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-    
+{% include "header.html" %}
     <div>
-        <a href="{{url_for('showBooks', category_id=category.id)}}">Cancel</a>
         <br>
         <a href="{{url_for('index')}}">Home</a>
         <br>
     </div>
+
+    <div>
+        <h2>Edit the category:</h2>
+    </div>
+    <br>
+    <br>
+    <form method="post">
+        <div>
+            <div>Edit Category: {{ form.name(class="form_placeholder", value=category.name) }} </div>
+
+            {% if form.name.errors %}
+                <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+
+            <button type="submit">Submit</button>
+            <a href="{{url_for('showBooks', category_id=category.id)}}">Cancel</a>
+        </div>
+    </form>
+
+{% include "footer.html" %}
 {% endblock content %}
