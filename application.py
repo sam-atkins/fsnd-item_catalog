@@ -126,12 +126,38 @@ def newBook():
 
 
 # edit book
-@app.route('/category/<int:category_id>/book/<int:book_id>/edit')
+@app.route('/category/<int:category_id>/book/<int:book_id>/edit',
+           methods=['GET', 'POST'])
 def editBook(category_id, book_id):
     editedBook = session.query(Book).filter_by(id=book_id).one()
     # category = session.query(Category).filter_by(id=category_id).one()
-    return render_template('/editbook.html', category_id=category_id,
-                           book_id=book_id, book=editedBook)
+    categories = session.query(Category).order_by(asc(Category.name))
+    if request.method == 'POST':
+
+        if request.form['name']:
+            editedBook.name = request.form['name']
+        if request.form['author']:
+            editedBook.author = request.form['author']
+        if request.form['price']:
+            editedBook.price = request.form['price']
+        if request.form['description']:
+            editedBook.description = request.form['description']
+        if request.form['category']:
+            c = request.form['category']
+            c_submitted = session.query(Category).filter(
+                Category.name == c).first()
+            editedBook.category = c_submitted
+
+        session.add(editedBook)
+        session.commit()
+
+        flash('Book %s by %s Edited Successfully!' %
+              (editedBook.name, editedBook.author))
+        return redirect(url_for('index'))
+    else:
+        return render_template('/editbook.html', category_id=category_id,
+                               book_id=book_id, book=editedBook,
+                               categories=categories)
 
 
 # delete book

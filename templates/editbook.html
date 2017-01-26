@@ -1,4 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
     this is the edit book page.
+
+    <br>
+    <br>
+    <form action="#" method="post">
+        <div>
+            <label for="name">Edit Title:</label>
+            <textarea class="form-control" maxlength="250" rows="1" name="name">{{book.name}}</textarea>
+
+            <label for="name">Edit Author:</label>
+            <textarea class="form-control" maxlength="250" rows="1" name="author">{{book.author}}</textarea>
+
+            <label for="name">Edit Price £:</label>
+            <textarea class="form-control" maxlength="250" rows="1" name="price">{{book.price}}</textarea>
+
+            <label for="name">Edit Description:</label>
+            <textarea class="form-control" maxlength="250" rows="3" name="description">{{book.description}}</textarea>
+
+            <label>Book Category</label>
+            <select name="category" id="categoryList">
+                {% for category in categories  %}
+                    <option value="{{category.name}}">{{category.name}}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    
+    <div>
+        <a href="{{url_for('showBooks', category_id=category_id)}}">Cancel</a>
+        <br>
+        <a href="{{url_for('index')}}">Home</a>
+        <br>
+    </div>
 {% endblock content %}

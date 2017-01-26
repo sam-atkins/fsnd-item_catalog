@@ -19,6 +19,7 @@
             <h2>{{book.name}}</h2>
             <h3>By: {{book.author}}</h3>
             <a href="{{url_for('theBook', book_id=book.id)}}">Read more...</a>
+            <a href="{{url_for('editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
             <br>
             <br>
         {% endfor %}
