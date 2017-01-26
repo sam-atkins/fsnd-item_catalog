@@ -90,3 +90,5 @@ ENV/
 
 # Project settings
 *.db
+client_secrets.json
+
