@@ -161,12 +161,20 @@ def editBook(category_id, book_id):
 
 
 # delete book
-@app.route('/category/<int:category_id>/book/<int:book_id>/delete')
+@app.route('/category/<int:category_id>/book/<int:book_id>/delete',
+           methods=['GET', 'POST'])
 def deleteBook(category_id, book_id):
     deletedBook = session.query(Book).filter_by(id=book_id).one()
     # category = session.query(Category).filter_by(id=category_id).one()
-    return render_template('/deletebook.html', category_id=category_id,
-                           book_id=book_id, book=deletedBook)
+    if request.method == 'POST':
+        session.delete(deletedBook)
+        session.commit()
+        flash('Book %s by %s successfully deleted!' %
+              (deletedBook.name, deletedBook.author))
+        return redirect(url_for('index'))
+    else:
+        return render_template('/deletebook.html', category_id=category_id,
+                               book_id=book_id, book=deletedBook)
 # [END Routes]
 
 

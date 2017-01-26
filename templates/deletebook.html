@@ -1,4 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-    This is the delete book page
+    <div>
+        <h2>Are you sure you want to delete {{book.name}} by {{book.author}}?</h2>
+    </div>
+    <br>
+    <form action="#" method="post">
+        <div>
+            <button type="submit">Delete</button>
+            <a href="{{url_for('showBooks', category_id=category_id)}}">Cancel</a>
+        </div>
+    </form>
+    
+    <div>
+        <a href="{{url_for('index')}}">Home</a>
+        <br>
+    </div>
 {% endblock content %}
