@@ -9,13 +9,21 @@
 <div>
     <h1>Category: {{category.name}}</h1>
     
-    {% for book in books  %}
-        <h2>{{book.name}}</h2>
-        <h3>By: {{book.author}}</h3>
-        <a href="{{url_for('theBook', book_id=book.id)}}">Read more...</a>
+    <div>
+        <a href="{{url_for('editCategory', category_id=category.id)}}">Edit category</a>
         <br>
-        <br>
-    {% endfor %}
+    </div>
+    
+    <div>
+        {% for book in books  %}
+            <h2>{{book.name}}</h2>
+            <h3>By: {{book.author}}</h3>
+            <a href="{{url_for('theBook', book_id=book.id)}}">Read more...</a>
+            <br>
+            <br>
+        {% endfor %}
+    </div>
+
 
     <a href="{{url_for('index')}}">Home</a>
 </div>

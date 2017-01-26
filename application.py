@@ -83,9 +83,15 @@ def newCategory():
 
 
 # edit category
-@app.route('/category/<int:category_id>/edit')
+@app.route('/category/<int:category_id>/edit', methods=['GET', 'POST'])
 def editCategory(category_id):
     editedCategory = session.query(Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        editedCategory.name = request.form['category']
+        session.add(editedCategory)
+        session.commit()
+        flash('Category %s Successfully Edited' % editedCategory.name)
+        return redirect(url_for('index'))
     return render_template('/editcategory.html', category=editedCategory)
 
 
