@@ -141,9 +141,9 @@ def newBook():
            methods=['GET', 'POST'])
 def editBook(category_id, book_id):
     editedBook = session.query(Book).filter_by(id=book_id).one()
-    # category = session.query(Category).filter_by(id=category_id).one()
     categories = session.query(Category).order_by(asc(Category.name))
-    if request.method == 'POST':
+    form = BookForm(request.form)
+    if request.method == 'POST' and form.validate():
 
         if request.form['name']:
             editedBook.name = request.form['name']
@@ -168,7 +168,7 @@ def editBook(category_id, book_id):
     else:
         return render_template('/editbook.html', category_id=category_id,
                                book_id=book_id, book=editedBook,
-                               categories=categories)
+                               categories=categories, form=form)
 
 
 # delete book

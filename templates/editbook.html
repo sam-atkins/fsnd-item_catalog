@@ -1,22 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-    this is the edit book page.
+{% include "header.html" %}
+    <div>
 
-    <br>
-    <br>
+        <br>
+        <a href="{{url_for('index')}}">Home</a>
+        <br>
+    </div>
+
+    <div>
+        <h2>Edit the book:</h2>
+        <br>
+    </div>
+
+    
     <form action="#" method="post">
         <div>
-            <label for="name">Edit Title:</label>
-            <textarea class="form-control" maxlength="250" rows="1" name="name">{{book.name}}</textarea>
+            <div>Edit Book Title: {{ form.name(class="form_placeholder", value=book.name) }} </div>
 
-            <label for="name">Edit Author:</label>
-            <textarea class="form-control" maxlength="250" rows="1" name="author">{{book.author}}</textarea>
+            {% if form.name.errors %}
+                <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
 
-            <label for="name">Edit Price £:</label>
-            <textarea class="form-control" maxlength="250" rows="1" name="price">{{book.price}}</textarea>
+            <div>Edit Author: {{ form.author(class="form_placeholder", value=book.author) }} </div>
 
-            <label for="name">Edit Description:</label>
-            <textarea class="form-control" maxlength="250" rows="3" name="description">{{book.description}}</textarea>
+            {% if form.author.errors %}
+                <ul class="errors">{% for error in form.author.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+
+            <div>Edit Price £: {{ form.price(class="form_placeholder", value=book.price) }} </div>
+
+            {% if form.price.errors %}
+                <ul class="errors">{% for error in form.price.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+
+            <div>Edit Description: {{ form.description(class="form_placeholder", value=book.description) }} </div>
+
+            {% if form.description.errors %}
+                <ul class="errors">{% for error in form.description.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+
 
             <label>Book Category</label>
             <select name="category" id="categoryList">
@@ -26,13 +49,9 @@
             </select>
 
             <button type="submit">Submit</button>
+            <a href="{{url_for('showBooks', category_id=category_id)}}">Cancel</a>
         </div>
     </form>
     
-    <div>
-        <a href="{{url_for('showBooks', category_id=category_id)}}">Cancel</a>
-        <br>
-        <a href="{{url_for('index')}}">Home</a>
-        <br>
-    </div>
+{% include "footer.html" %}
 {% endblock content %}
