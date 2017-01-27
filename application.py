@@ -20,7 +20,7 @@ import requests
 import json
 
 # SQLAlchemy
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 
 # Helpers
@@ -211,7 +211,8 @@ def disconnect():
 @app.route('/catalogue')
 def index():
     categories = session.query(Category).order_by(asc(Category.name))
-    return render_template('index.html', categories=categories)
+    books = session.query(Book).order_by(desc(Book.created_at))
+    return render_template('index.html', categories=categories, books=books)
 
 
 # show books in one category

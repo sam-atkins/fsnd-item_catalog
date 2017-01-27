@@ -36,6 +36,17 @@
 
 </div>
 
+<div>
+    <h1>Latest Items:</h1>
+
+    {% for book in books  %}
+        <a href="{{url_for('theBook', book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
+        <br>
+        <br>
+    {% endfor %}
+</div>
+
+
 {% include "partials/footer.html" %}
 
 {% endblock content %}

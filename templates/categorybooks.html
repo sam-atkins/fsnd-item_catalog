@@ -19,7 +19,7 @@
 </div>
 
 <div>
-    <h1>Category: {{category.name}}</h1>
+    <h1>Category: {{category.name}} ({{books|count}} books)</h1>
     
     <div>
         <a href="{{url_for('editCategory', category_id=category.id)}}">Edit category</a>
