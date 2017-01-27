@@ -255,7 +255,7 @@ def editCategory(category_id):
         return redirect('/login')
     if editedCategory.user_id != login_session['user_id']:
         flash('You are not authorised to edit this category.')
-        return redirect(url_for('index'))
+        return redirect(url_for('showBooks', category_id=category_id))
     if request.method == 'POST' and form.validate():
         editedCategory.name = request.form['name']
         session.add(editedCategory)
@@ -275,7 +275,7 @@ def deleteCategory(category_id):
         return redirect('/login')
     if deletedCategory.user_id != login_session['user_id']:
         flash('You are not authorised to delete this category.')
-        return redirect(url_for('index'))
+        return redirect(url_for('showBooks', category_id=category_id))
     if request.method == 'POST':
         session.delete(deletedCategory)
         session.commit()
@@ -324,7 +324,7 @@ def editBook(category_id, book_id):
         return redirect('/login')
     if editedBook.user_id != login_session['user_id']:
         flash('You are not authorised to edit this book.')
-        return redirect(url_for('index'))
+        return redirect(url_for('showBooks', category_id=category_id))
     if request.method == 'POST' and form.validate():
 
         if request.form['name']:
@@ -362,7 +362,7 @@ def deleteBook(category_id, book_id):
         return redirect('/login')
     if deletedBook.user_id != login_session['user_id']:
         flash('You are not authorised to delete this book.')
-        return redirect(url_for('index'))
+        return redirect(url_for('showBooks', category_id=category_id))
     if request.method == 'POST':
         session.delete(deletedBook)
         session.commit()

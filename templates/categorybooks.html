@@ -6,6 +6,18 @@
     <p>This is the page listing all books in a category</p>
 </div>
 
+<div class = 'flash'>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+</div>
+
 <div>
     <h1>Category: {{category.name}}</h1>
     
@@ -23,6 +35,7 @@
             <a href="{{url_for('theBook', book_id=book.id)}}">Read more...</a>
             <a href="{{url_for('editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
             <a href="{{url_for('deleteBook', category_id=category.id, book_id=book.id)}}">Delete Book</a>
+            
             <br>
             <br>
         {% endfor %}
