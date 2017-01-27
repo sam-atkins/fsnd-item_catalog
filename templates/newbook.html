@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    {% include "header.html" %}
+    {% include "partials/header.html" %}
     <br>
     <a href="{{url_for('index')}}">Home</a>
     <br>
@@ -46,5 +46,5 @@
         </div>
     </form>
 
-    {% include "footer.html" %}
+    {% include "partials/footer.html" %}
 {% endblock content %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% include "partials/header.html" %}
     <div>
         <h2>Are you sure you want to delete {{category.name}}?</h2>
         <p>This will also delete all books within this category.</p>
@@ -11,5 +12,5 @@
             <a href="{{url_for('index')}}">Cancel</a>
         </div>
     </form>
-
+{% include "partials/footer.html" %}
 {% endblock content %}

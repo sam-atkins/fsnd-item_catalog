@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% include "partials/header.html" %}
     <div>
         <h2>Are you sure you want to delete {{book.name}} by {{book.author}}?</h2>
     </div>
@@ -15,4 +16,5 @@
         <a href="{{url_for('index')}}">Home</a>
         <br>
     </div>
+{% include "partials/footer.html" %}
 {% endblock content %}

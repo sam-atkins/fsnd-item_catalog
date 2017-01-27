@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% include "partials/header.html" %}
     this is the new category page
     <br>
     <a href="{{url_for('index')}}">Home</a>
@@ -18,6 +19,6 @@
 
     <br>
     <br>
-    
 
+{% include "partials/footer.html" %}
 {% endblock content %}
