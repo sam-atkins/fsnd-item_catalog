@@ -4,19 +4,20 @@ Application docstrings here
 
 # [START Imports]
 # Flask & others
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, \
+    jsonify
 from flask_wtf.csrf import CSRFProtect
 from flask import session as login_session
-from flask import make_response
 import random
 import string
-import httplib2
-import json
-import requests
 
 # OAuth
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
+from flask import make_response
+import httplib2
+import requests
+import json
 
 # SQLAlchemy
 from sqlalchemy import create_engine, asc
@@ -373,6 +374,26 @@ def deleteBook(category_id, book_id):
         return render_template('/deletebook.html', category_id=category_id,
                                book_id=book_id, book=deletedBook)
 # [END Routes]
+
+
+# [START JSON API Endpoints]
+@app.route('/categories/JSON')
+def allCategoriesJSON():
+    categories = session.query(Category).all()
+    return jsonify(categories=[c.serialize for c in categories])
+
+
+@app.route('/book/<int:book_id>/JSON')
+def bookJSON(book_id):
+    book = session.query(Book).filter_by(id=book_id).one()
+    return jsonify(book=book.serialize)
+
+
+@app.route('/category/<int:category_id>/JSON')
+def categoryWithBooksJSON(category_id):
+    books = session.query(Book).filter_by(id=category_id).all()
+    return jsonify(Category=[b.serialize for b in books])
+# [END JSON API Endpoints]
 
 
 # Flask

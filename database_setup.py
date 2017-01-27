@@ -38,6 +38,16 @@ class Category(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
+    @property
+    def serialize(self):
+        """
+        Return Category object data in serialized JSON format
+        """
+        return {
+            'name': self.name,
+            'id': self.id,
+        }
+
 
 class Book(Base):
     """
@@ -54,11 +64,25 @@ class Book(Base):
     author = Column(String(250))
     price = Column(String(8))
     created_at = Column(DateTime, default=datetime.now())
-    updated_up = Column(DateTime, onupdate=datetime.now())
+    updated_at = Column(DateTime, onupdate=datetime.now())
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+
+    @property
+    def serialize(self):
+        """
+        Return Book object data in serialized JSON format
+        """
+        return {
+            'name': self.name,
+            'description': self.description,
+            'author': self.author,
+            'price': self.price,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+        }
 
 
 engine = create_engine('sqlite:///cataloguebooksv2.db')
