@@ -25,7 +25,7 @@
             $('#signinButton').attr('style', 'display: none');
             // Send the one-time-use code to the server, if the server responds, 
             // write a 'login successful' message to the web page and then redirect 
-            // back to the main restaurants page
+            // back to the main catalogue page
             $.ajax({
               type: 'POST',
               url: '/gconnect?state={{STATE}}',
@@ -37,7 +37,7 @@
                 if (result) {
                   $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
                  setTimeout(function() {
-                  window.location.href = "/restaurant";
+                  window.location.href = "/catalogue";
                  }, 4000);
                   
               } else if (authResult['error']) {
