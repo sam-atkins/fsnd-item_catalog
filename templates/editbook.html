@@ -44,7 +44,7 @@
             <label>Book Category</label>
             <select name="category" id="categoryList">
                 {% for category in categories  %}
-                    <option value="{{category.name}}">{{category.name}}</option>
+                    <option value="{{category.name}}" {% if book.category_id == category.id  %} selected="selected" {% endif %} >{{category.name}}</option>
                 {% endfor %}
             </select>
 
