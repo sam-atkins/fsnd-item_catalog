@@ -64,7 +64,6 @@ class Book(Base):
     author = Column(String(250))
     price = Column(String(8))
     created_at = Column(DateTime, default=datetime.now())
-    updated_at = Column(DateTime, onupdate=datetime.now())
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
     user_id = Column(Integer, ForeignKey('user.id'))
