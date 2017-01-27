@@ -6,11 +6,10 @@
         <p>This will also delete all books within this category.</p>
     </div>
     <br>
-    <form action="#" method="post">
-        <div>
+    <form method="post">
+    {{ form.csrf_token }}
             <button type="submit">Delete</button>
             <a href="{{url_for('index')}}">Cancel</a>
-        </div>
     </form>
 {% include "partials/footer.html" %}
 {% endblock content %}

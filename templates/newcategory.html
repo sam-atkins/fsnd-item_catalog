@@ -7,6 +7,7 @@
     <br>
 
     <form method="POST">
+        {{ form.csrf_token }}
         <div>New Category: {{ form.name(class="form_placeholder") }}</div>
 
         {% if form.name.errors %}
