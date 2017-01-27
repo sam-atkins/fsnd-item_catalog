@@ -24,10 +24,10 @@ from sqlalchemy.orm import sessionmaker
 
 # Helpers
 from forms import CategoryForm, BookForm
-from userhelp import createUser, getUserID, getUserID
+from userhelp import createUser, getUserID
 
 # Db
-from database_setup import Base, User, Category, Book
+from database_setup import Base, Category, Book
 # [END Imports]
 
 
@@ -233,14 +233,15 @@ def theBook(book_id):
 # new category
 @app.route('/category/new', methods=['GET', 'POST'])
 def newCategory():
+    if 'username' not in login_session:
+        return redirect('/login')
     form = CategoryForm(request.form)
     if request.method == 'POST' and form.validate():
-        newCategory = Category(name=request.form['name'])
+        newCategory = Category(name=request.form['name'],
+                               user_id=login_session['user_id'])
         session.add(newCategory)
         session.commit()
         flash('New Category %s Successfully Created' % newCategory.name)
-
-        # change redirect
         return redirect(url_for('index'))
     return render_template('/newcategory.html', form=form)
 
@@ -250,6 +251,11 @@ def newCategory():
 def editCategory(category_id):
     editedCategory = session.query(Category).filter_by(id=category_id).one()
     form = CategoryForm(request.form)
+    if 'username' not in login_session:
+        return redirect('/login')
+    if editedCategory.user_id != login_session['user_id']:
+        flash('You are not authorised to edit this category.')
+        return redirect(url_for('index'))
     if request.method == 'POST' and form.validate():
         editedCategory.name = request.form['name']
         session.add(editedCategory)
@@ -265,6 +271,11 @@ def editCategory(category_id):
 @app.route('/category/<int:category_id>/delete', methods=['GET', 'POST'])
 def deleteCategory(category_id):
     deletedCategory = session.query(Category).filter_by(id=category_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
+    if deletedCategory.user_id != login_session['user_id']:
+        flash('You are not authorised to delete this category.')
+        return redirect(url_for('index'))
     if request.method == 'POST':
         session.delete(deletedCategory)
         session.commit()
@@ -280,6 +291,8 @@ def deleteCategory(category_id):
 def newBook():
     categories = session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST' and form.validate():
         c = request.form['category']
         c_submitted = session.query(Category).filter(
@@ -288,7 +301,8 @@ def newBook():
                        description=request.form['description'],
                        price=request.form['price'],
                        author=request.form['author'],
-                       category=c_submitted)
+                       category=c_submitted,
+                       user_id=login_session['user_id'])
         session.add(newBook)
         session.commit()
         flash('New Book %s by %s Successfully Created' %
@@ -306,6 +320,11 @@ def editBook(category_id, book_id):
     editedBook = session.query(Book).filter_by(id=book_id).one()
     categories = session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
+    if 'username' not in login_session:
+        return redirect('/login')
+    if editedBook.user_id != login_session['user_id']:
+        flash('You are not authorised to edit this book.')
+        return redirect(url_for('index'))
     if request.method == 'POST' and form.validate():
 
         if request.form['name']:
@@ -339,7 +358,11 @@ def editBook(category_id, book_id):
            methods=['GET', 'POST'])
 def deleteBook(category_id, book_id):
     deletedBook = session.query(Book).filter_by(id=book_id).one()
-    # category = session.query(Category).filter_by(id=category_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
+    if deletedBook.user_id != login_session['user_id']:
+        flash('You are not authorised to delete this book.')
+        return redirect(url_for('index'))
     if request.method == 'POST':
         session.delete(deletedBook)
         session.commit()
