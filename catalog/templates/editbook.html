@@ -4,7 +4,7 @@
     <div>
 
         <br>
-        <a href="{{url_for('index')}}">Home</a>
+        <a href="{{url_for('home.index')}}">Home</a>
         <br>
     </div>
 
@@ -49,7 +49,7 @@
             </select>
 
             <button type="submit">Submit</button>
-            <a href="{{url_for('showBooks', category_id=category_id)}}">Cancel</a>
+            <a href="{{url_for('books.showBooks', category_id=category_id)}}">Cancel</a>
     </form>
     
 {% include "partials/footer.html" %}

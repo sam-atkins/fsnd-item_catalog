@@ -22,16 +22,16 @@
     <h1>Categories:</h1>
 
     {% for category in categories  %}
-        <a href="{{url_for('showBooks', category_id=category.id)}}">{{category.name}}</a>
+        <a href="{{url_for('books.showBooks', category_id=category.id)}}">{{category.name}}</a>
         <br>
         <br>
     {% endfor %}
 
     <br>
     <br>
-    <a href="{{url_for('newCategory')}}">Add new category</a>
+    <a href="{{url_for('category.newCategory')}}">Add new category</a>
     <br>
-    <a href="{{url_for('newBook')}}">Add new book</a>
+    <a href="{{url_for('books.newBook')}}">Add new book</a>
     <br>
 
 </div>
@@ -40,7 +40,7 @@
     <h1>Latest Items:</h1>
 
     {% for book in books  %}
-        <a href="{{url_for('theBook', book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
+        <a href="{{url_for('home.theBook', book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
         <br>
         <br>
     {% endfor %}

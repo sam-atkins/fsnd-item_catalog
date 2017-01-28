@@ -84,6 +84,8 @@ class Book(Base):
         }
 
 
-engine = create_engine('sqlite:///cataloguebooksv2.db')
+engine = create_engine(
+    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
+
 
 Base.metadata.create_all(engine)

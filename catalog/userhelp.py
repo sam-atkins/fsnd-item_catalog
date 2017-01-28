@@ -5,11 +5,12 @@ Helper methods with creating users and getting user info
 # [START Imports]
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, User
+from models import Base, User
 # [END Imports]
 
 # [START Db]
-engine = create_engine('sqlite:///cataloguebooksv2.db')
+engine = create_engine(
+    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

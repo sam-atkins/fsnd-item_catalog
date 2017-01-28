@@ -3,7 +3,7 @@
 {% include "partials/header.html" %}
     this is the new category page
     <br>
-    <a href="{{url_for('index')}}">Home</a>
+    <a href="{{url_for('home.index')}}">Home</a>
     <br>
 
     <form method="POST">
@@ -15,7 +15,7 @@
         {% endif %}
         
         <button type="submit">Create</button>
-        <a href="{{url_for('index')}}">Cancel</a>
+        <a href="{{url_for('home.index')}}">Cancel</a>
     </form>
 
     <br>
