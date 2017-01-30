@@ -25,7 +25,7 @@ user_admin = Blueprint('user_admin', __name__)
 
 
 CLIENT_ID = json.loads(
-    open('catalog/client_secrets.json', 'r').read())['web']['client_id']
+    open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Book Catalogue App"
 
 
