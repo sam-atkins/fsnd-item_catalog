@@ -12,10 +12,10 @@
     <p>Price: £{{book.price}}</p>
     <p>Description: {{book.description}}</p>
 
-    <a href="{{url_for('books.showBooks', category_id=book.category_id)}}">Go back to category</a>
+    <a href="{{url_for('category_admin.showCategory', category_id = book.category_id ) }}">Go back to category</a>
     <br>
     <br>
-    <a href="{{url_for('index')}}">Home</a>
+    <a href="{{url_for('homePage.index')}}">Home</a>
 </div>
 
 {% include "partials/footer.html" %}

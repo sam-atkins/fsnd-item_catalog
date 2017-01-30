@@ -5,12 +5,35 @@ Database set-up script for item catalogue
 # [START Imports]
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy import create_engine
 from datetime import datetime
 # [END Imports]
 
+
+# [START Db engine and session]
 Base = declarative_base()
+
+# no users; dev 1
+engine = create_engine(
+    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv1.db')
+
+# with users; dev 2
+# engine = create_engine(
+#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
+
+
+db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=engine))
+# A DBSession() instance establishes all conversations with the database
+# and represents a "staging zone" for all the objects loaded into the
+# database session object. Any change made against the objects in the
+# session won't be persisted into the database until you call
+# session.commit(). If you're not happy about the changes, you can
+# revert all of them back to the last commit by calling
+# session.rollback()
+# [END Db engine and session]
 
 
 class User(Base):
@@ -35,8 +58,8 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    # user_id = Column(Integer, ForeignKey('user.id'))
+    # user = relationship(User)
 
     @property
     def serialize(self):
@@ -66,8 +89,8 @@ class Book(Base):
     created_at = Column(DateTime, default=datetime.now())
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    # user_id = Column(Integer, ForeignKey('user.id'))
+    # user = relationship(User)
 
     @property
     def serialize(self):
@@ -82,10 +105,6 @@ class Book(Base):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
         }
-
-
-engine = create_engine(
-    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
 
 
 Base.metadata.create_all(engine)

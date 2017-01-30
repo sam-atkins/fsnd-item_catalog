@@ -1,5 +1,6 @@
 """
 Manages OAuth signin and signout
+Blueprint: user_admin
 """
 
 # [START Imports]
@@ -20,7 +21,7 @@ from catalog.userhelp import getUserID, createUser
 # [END Imports]
 
 
-signin = Blueprint('signin', __name__)
+user_admin = Blueprint('user_admin', __name__)
 
 
 CLIENT_ID = json.loads(
@@ -30,7 +31,7 @@ APPLICATION_NAME = "Book Catalogue App"
 
 # [START Routes]
 # login
-@signin.route('/login')
+@user_admin.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
@@ -40,7 +41,7 @@ def showLogin():
 
 
 # OAuth Google Plus - gconnect
-@signin.route('/gconnect', methods=['POST'])
+@user_admin.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
     if request.args.get('state') != login_session['state']:
@@ -134,7 +135,7 @@ def gconnect():
 
 
 # OAuth disconnect - gdisconnect
-@signin.route('/gdisconnect')
+@user_admin.route('/gdisconnect')
 def gdisconnect():
     # Only disconnect a connected user.
     credentials = login_session.get('credentials')
@@ -156,7 +157,7 @@ def gdisconnect():
 
 
 # Disconnect based on provider; enables disconnect from multiple providers
-@signin.route('/disconnect')
+@user_admin.route('/disconnect')
 def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
@@ -172,7 +173,7 @@ def disconnect():
         del login_session['user_id']
         del login_session['provider']
         flash("You have successfully been logged out.")
-        return redirect(url_for('index'))
+        return redirect(url_for('homePage.index'))
     else:
         flash("You were not logged in")
-        return redirect(url_for('index'))
+        return redirect(url_for('homePage.index'))

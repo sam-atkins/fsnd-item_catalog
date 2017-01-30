@@ -22,9 +22,9 @@
     <h1>Category: {{category.name}} ({{books|count}} books)</h1>
     
     <div>
-        <a href="{{url_for('category.editCategory', category_id=category.id)}}">Edit category</a>
+        <a href="{{url_for('category_admin.editCategory', category_id=category.id)}}">Edit category</a>
         <br>
-        <a href="{{url_for('category.deleteCategory', category_id=category.id)}}">Delete category</a>
+        <a href="{{url_for('category_admin.deleteCategory', category_id=category.id)}}">Delete category</a>
         <br>
     </div>
     
@@ -32,9 +32,9 @@
         {% for book in books  %}
             <h2>{{book.name}}</h2>
             <h3>By: {{book.author}}</h3>
-            <a href="{{url_for('books.theBook', book_id=book.id)}}">Read more...</a>
-            <a href="{{url_for('books.editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
-            <a href="{{url_for('books.deleteBook', category_id=category.id, book_id=book.id)}}">Delete Book</a>
+            <a href="{{url_for('book_admin.theBook', book_id=book.id)}}">Read more...</a>
+            <a href="{{url_for('book_admin.editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
+            <a href="{{url_for('book_admin.deleteBook', category_id=category.id, book_id=book.id)}}">Delete Book</a>
             
             <br>
             <br>
@@ -42,7 +42,7 @@
     </div>
 
 
-    <a href="{{url_for('home.index')}}">Home</a>
+    <a href="{{url_for('homePage.index')}}">Home</a>
 </div>
 
 {% include "partials/footer.html" %}

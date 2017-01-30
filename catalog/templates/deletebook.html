@@ -6,13 +6,13 @@
     </div>
     <br>
     <form method="post">
-    {{ form.csrf_token }}
+    {# {{ form.csrf_token }} #}
             <button type="submit">Delete</button>
-            <a href="{{url_for('books.showBooks', category_id=category_id)}}">Cancel</a>
+            <a href="{{url_for('category_admin.showCategory', category_id=category_id)}}">Cancel</a>
     </form>
     
     <div>
-        <a href="{{url_for('home.index')}}">Home</a>
+        <a href="{{url_for('homePage.index')}}">Home</a>
         <br>
     </div>
 {% include "partials/footer.html" %}

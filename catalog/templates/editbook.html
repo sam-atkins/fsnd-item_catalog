@@ -4,7 +4,7 @@
     <div>
 
         <br>
-        <a href="{{url_for('home.index')}}">Home</a>
+        <a href="{{url_for('homePage.index')}}">Home</a>
         <br>
     </div>
 
@@ -15,7 +15,7 @@
 
     
     <form method="post">
-    {{ form.csrf_token }}
+    {# {{ form.csrf_token }} #}
             <div>Edit Book Title: {{ form.name(class="form_placeholder", value=book.name) }} </div>
 
             {% if form.name.errors %}
@@ -49,7 +49,7 @@
             </select>
 
             <button type="submit">Submit</button>
-            <a href="{{url_for('books.showBooks', category_id=category_id)}}">Cancel</a>
+            <a href="{{url_for('category_admin.showCategory', category_id=category_id)}}">Cancel</a>
     </form>
     
 {% include "partials/footer.html" %}

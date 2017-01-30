@@ -4,6 +4,7 @@ Classes to enable helper methods to validate form entry by users
 
 # [START Imports]
 from wtforms import Form, StringField, validators
+# from flask_wtf.csrf import CSRFProtect
 # [END Imports]
 
 

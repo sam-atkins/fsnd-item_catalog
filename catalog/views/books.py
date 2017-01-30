@@ -1,5 +1,6 @@
 """
 CRUD operations and views for books
+Blueprint: book_admin
 """
 
 # [START Imports]
@@ -8,71 +9,79 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask import session as login_session
 
 # SQLAlchemy
-from sqlalchemy import create_engine, asc
-from sqlalchemy.orm import sessionmaker
+# from sqlalchemy import create_engine, asc
+from sqlalchemy import asc
+# from sqlalchemy.orm import sessionmaker
 
 # Helpers
 from catalog.forms import BookForm
 
 # Db
-from catalog.models import Base, Category, Book
+from catalog.database import db_session, Category, Book
 # [END Imports]
 
 
-books = Blueprint('books', __name__)
+book_admin = Blueprint('book_admin', __name__)
 
 
 # [START Database set-up]
-engine = create_engine(
-    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
+# engine = create_engine(
+#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebook_adminv2.db')
 
-Base.metadata.bind = engine
+# Base.metadata.bind = engine
 
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+# DBSession = sessionmaker(bind=engine)
+# session = DBSession()
 # [END Database set-up]
 
 
 # [START Routes]
+# display one book
+@book_admin.route('/book/<int:book_id>')
+def theBook(book_id):
+    book = db_session.query(Book).filter_by(id=book_id).one()
+    return render_template('book.html', book=book)
+
+
 # new book
-@books.route('/book/new', methods=['GET', 'POST'])
+@book_admin.route('/book/new', methods=['GET', 'POST'])
 def newBook():
-    categories = session.query(Category).order_by(asc(Category.name))
+    categories = db_session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     if request.method == 'POST' and form.validate():
         c = request.form['category']
-        c_submitted = session.query(Category).filter(
+        c_submitted = db_session.query(Category).filter(
             Category.name == c).first()
         newBook = Book(name=request.form['name'],
                        description=request.form['description'],
                        price=request.form['price'],
                        author=request.form['author'],
-                       category=c_submitted,
-                       user_id=login_session['user_id'])
-        session.add(newBook)
-        session.commit()
+                       category=c_submitted)  #,
+                       # user_id=login_session['user_id'])
+        db_session.add(newBook)
+        db_session.commit()
         flash('New Book %s by %s Successfully Created' %
               (newBook.name, newBook.author))
 
         # amend redirect
-        return redirect(url_for('index'))
+        return redirect(url_for('homePage.index'))
     return render_template('/newbook.html', categories=categories, form=form)
 
 
 # edit book
-@books.route('/category/<int:category_id>/book/<int:book_id>/edit',
-             methods=['GET', 'POST'])
+@book_admin.route('/category/<int:category_id>/book/<int:book_id>/edit',
+                  methods=['GET', 'POST'])
 def editBook(category_id, book_id):
-    editedBook = session.query(Book).filter_by(id=book_id).one()
-    categories = session.query(Category).order_by(asc(Category.name))
+    editedBook = db_session.query(Book).filter_by(id=book_id).one()
+    categories = db_session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
-    if editedBook.user_id != login_session['user_id']:
-        flash('You are not authorised to edit this book.')
-        return redirect(url_for('showBooks', category_id=category_id))
+    # if 'username' not in login_session:
+    #     return redirect('/login')
+    # if editedBook.user_id != login_session['user_id']:
+    #     flash('You are not authorised to edit this book.')
+        # return redirect(url_for('book_admin.showBooks', category_id=category_id))
     if request.method == 'POST' and form.validate():
 
         if request.form['name']:
@@ -85,16 +94,16 @@ def editBook(category_id, book_id):
             editedBook.description = request.form['description']
         if request.form['category']:
             c = request.form['category']
-            c_submitted = session.query(Category).filter(
+            c_submitted = db_session.query(Category).filter(
                 Category.name == c).first()
             editedBook.category = c_submitted
 
-        session.add(editedBook)
-        session.commit()
+        db_session.add(editedBook)
+        db_session.commit()
 
         flash('Book %s by %s Edited Successfully!' %
               (editedBook.name, editedBook.author))
-        return redirect(url_for('index'))
+        return redirect(url_for('homePage.index'))
     else:
         return render_template('/editbook.html', category_id=category_id,
                                book_id=book_id, book=editedBook,
@@ -102,21 +111,21 @@ def editBook(category_id, book_id):
 
 
 # delete book
-@books.route('/category/<int:category_id>/book/<int:book_id>/delete',
-             methods=['GET', 'POST'])
+@book_admin.route('/category/<int:category_id>/book/<int:book_id>/delete',
+                  methods=['GET', 'POST'])
 def deleteBook(category_id, book_id):
-    deletedBook = session.query(Book).filter_by(id=book_id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
-    if deletedBook.user_id != login_session['user_id']:
-        flash('You are not authorised to delete this book.')
-        return redirect(url_for('showBooks', category_id=category_id))
+    deletedBook = db_session.query(Book).filter_by(id=book_id).one()
+    # if 'username' not in login_session:
+    #     return redirect('/login')
+    # if deletedBook.user_id != login_session['user_id']:
+    #     flash('You are not authorised to delete this book.')
+        # return redirect(url_for('book_admin.showBooks', category_id=category_id))
     if request.method == 'POST':
-        session.delete(deletedBook)
-        session.commit()
+        db_session.delete(deletedBook)
+        db_session.commit()
         flash('Book %s by %s successfully deleted!' %
               (deletedBook.name, deletedBook.author))
-        return redirect(url_for('index'))
+        return redirect(url_for('homePage.index'))
     else:
         return render_template('/deletebook.html', category_id=category_id,
                                book_id=book_id, book=deletedBook)

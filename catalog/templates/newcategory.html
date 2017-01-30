@@ -3,11 +3,11 @@
 {% include "partials/header.html" %}
     this is the new category page
     <br>
-    <a href="{{url_for('home.index')}}">Home</a>
+    <a href="{{url_for('homePage.index')}}">Home</a>
     <br>
 
     <form method="POST">
-        {{ form.csrf_token }}
+        {# {{ form.csrf_token }} #}
         <div>New Category: {{ form.name(class="form_placeholder") }}</div>
 
         {% if form.name.errors %}
@@ -15,7 +15,7 @@
         {% endif %}
         
         <button type="submit">Create</button>
-        <a href="{{url_for('home.index')}}">Cancel</a>
+        <a href="{{url_for('homePage.index')}}">Cancel</a>
     </form>
 
     <br>
