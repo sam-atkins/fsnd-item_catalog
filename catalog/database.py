@@ -15,12 +15,12 @@ from datetime import datetime
 Base = declarative_base()
 
 # no users; dev 1
-engine = create_engine(
-    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv1.db')
+# engine = create_engine(
+#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv1.db')
 
 # with users; dev 2
-# engine = create_engine(
-#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
+engine = create_engine(
+    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
 
 
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -58,8 +58,8 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    # user_id = Column(Integer, ForeignKey('user.id'))
-    # user = relationship(User)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -89,8 +89,8 @@ class Book(Base):
     created_at = Column(DateTime, default=datetime.now())
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
-    # user_id = Column(Integer, ForeignKey('user.id'))
-    # user = relationship(User)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):

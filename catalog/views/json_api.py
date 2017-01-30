@@ -5,27 +5,12 @@ API JSON endpoints
 # [START Imports]
 from flask import Blueprint, jsonify
 
-# SQLAlchemy
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker
-
 # Db
 from catalog.database import db_session, Category, Book
 # [END Imports]
 
 
 api_admin = Blueprint('api_admin', __name__)
-
-
-# [START Database set-up]
-# engine = create_engine(
-#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
-
-# Base.metadata.bind = engine
-
-# DBSession = sessionmaker(bind=engine)
-# session = DBSession()
-# [END Database set-up]
 
 
 # [START JSON API Endpoints]

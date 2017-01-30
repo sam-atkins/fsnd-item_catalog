@@ -9,9 +9,7 @@ Blueprint: homePage
 from flask import Blueprint, render_template
 
 # SQLAlchemy
-# from sqlalchemy import create_engine, asc, desc
 from sqlalchemy import asc, desc
-# from sqlalchemy.orm import sessionmaker
 
 # Db
 from catalog.database import db_session, Category, Book
@@ -19,17 +17,6 @@ from catalog.database import db_session, Category, Book
 
 
 homePage = Blueprint('homePage', __name__)
-
-
-# [START Database set-up]
-# engine = create_engine(
-#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
-
-# Base.metadata.bind = engine
-
-# DBSession = sessionmaker(bind=engine)
-# session = DBSession()
-# [END Database set-up]
 
 
 # [START Routes]

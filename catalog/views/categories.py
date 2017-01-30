@@ -8,10 +8,6 @@ Blueprint: category_admin
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask import session as login_session
 
-# SQLAlchemy
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker
-
 # Helpers
 from catalog.forms import CategoryForm
 
@@ -21,17 +17,6 @@ from catalog.database import db_session, Category, Book
 
 
 category_admin = Blueprint('category_admin', __name__)
-
-
-# [START Database set-up]
-# engine = create_engine(
-#     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
-
-# Base.metadata.bind = engine
-
-# DBSession = sessionmaker(bind=engine)
-# session = DBSession()
-# [END Database set-up]
 
 
 # [START Routes]
@@ -48,12 +33,12 @@ def showCategory(category_id):
 # new category
 @category_admin.route('/category/new', methods=['GET', 'POST'])
 def newCategory():
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
     form = CategoryForm(request.form)
     if request.method == 'POST' and form.validate():
-        newCategory = Category(name=request.form['name'])  #,
-                               # user_id=login_session['user_id'])
+        newCategory = Category(name=request.form['name'],
+                               user_id=login_session['user_id'])
         db_session.add(newCategory)
         db_session.commit()
         flash('New Category %s Successfully Created' % newCategory.name)
@@ -67,11 +52,11 @@ def newCategory():
 def editCategory(category_id):
     editedCategory = db_session.query(Category).filter_by(id=category_id).one()
     form = CategoryForm(request.form)
-    # if 'username' not in login_session:
-    #     return redirect('/login')
-    # if editedCategory.user_id != login_session['user_id']:
-    #     flash('You are not authorised to edit this category.')
-    # return redirect(url_for('book_admin.showBooks', category_id=category_id))
+    if 'username' not in login_session:
+        return redirect('/login')
+    if editedCategory.user_id != login_session['user_id']:
+        flash('You are not authorised to edit this category.')
+    return redirect(url_for('book_admin.showBooks', category_id=category_id))
     if request.method == 'POST' and form.validate():
         editedCategory.name = request.form['name']
         db_session.add(editedCategory)
@@ -89,11 +74,11 @@ def editCategory(category_id):
 def deleteCategory(category_id):
     deletedCategory = db_session.query(
         Category).filter_by(id=category_id).one()
-    # if 'username' not in login_session:
-    #     return redirect('/login')
-    # if deletedCategory.user_id != login_session['user_id']:
-    #     flash('You are not authorised to delete this category.')
-    # return redirect(url_for('book_admin.showBooks', category_id=category_id))
+    if 'username' not in login_session:
+        return redirect('/login')
+    if deletedCategory.user_id != login_session['user_id']:
+        flash('You are not authorised to delete this category.')
+    return redirect(url_for('book_admin.showBooks', category_id=category_id))
     if request.method == 'POST':
         db_session.delete(deletedCategory)
         db_session.commit()
