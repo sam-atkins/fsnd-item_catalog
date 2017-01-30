@@ -24,6 +24,10 @@ homePage = Blueprint('homePage', __name__)
 @homePage.route('/')
 @homePage.route('/catalogue')
 def index():
+    """Displays the index i.e. home page, with db queries made to return
+    all categories in ascending order i.e. alphabetical order
+    all books in descending order by created date
+    """
     categories = db_session.query(Category).order_by(asc(Category.name))
     books = db_session.query(Book).order_by(desc(Book.created_at))
     return render_template('index.html', categories=categories, books=books)

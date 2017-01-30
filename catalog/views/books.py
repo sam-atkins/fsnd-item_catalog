@@ -26,6 +26,7 @@ book_admin = Blueprint('book_admin', __name__)
 # display one book
 @book_admin.route('/book/<int:book_id>')
 def theBook(book_id):
+    """Displays page showing one book including all the book's info"""
     book = db_session.query(Book).filter_by(id=book_id).one()
     return render_template('book.html', book=book)
 
@@ -33,6 +34,9 @@ def theBook(book_id):
 # new book
 @book_admin.route('/book/new', methods=['GET', 'POST'])
 def newBook():
+    """Create a new book, with control that user must be logged in
+
+    """
     categories = db_session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
     if 'username' not in login_session:
@@ -45,14 +49,13 @@ def newBook():
                        description=request.form['description'],
                        price=request.form['price'],
                        author=request.form['author'],
-                       category=c_submitted)  # ,
-        # user_id=login_session['user_id'])
+                       category=c_submitted,
+                       user_id=login_session['user_id'])
         db_session.add(newBook)
         db_session.commit()
         flash('New Book %s by %s Successfully Created' %
               (newBook.name, newBook.author))
 
-        # amend redirect
         return redirect(url_for('homePage.index'))
     return render_template('/newbook.html', categories=categories, form=form)
 
@@ -61,6 +64,9 @@ def newBook():
 @book_admin.route('/category/<int:category_id>/book/<int:book_id>/edit',
                   methods=['GET', 'POST'])
 def editBook(category_id, book_id):
+    """Edit a book, with local permissions:
+    User must be logged in and created of the original book entry
+    """
     editedBook = db_session.query(Book).filter_by(id=book_id).one()
     categories = db_session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
@@ -102,7 +108,10 @@ def editBook(category_id, book_id):
 @book_admin.route('/category/<int:category_id>/book/<int:book_id>/delete',
                   methods=['GET', 'POST'])
 def deleteBook(category_id, book_id):
+    """Manages book deletion. Local Permissions:
+    Must be logged in and user that created the book"""
     deletedBook = db_session.query(Book).filter_by(id=book_id).one()
+    form = BookForm(request.form)
     if 'username' not in login_session:
         return redirect('/login')
     if deletedBook.user_id != login_session['user_id']:
@@ -117,5 +126,5 @@ def deleteBook(category_id, book_id):
         return redirect(url_for('homePage.index'))
     else:
         return render_template('/deletebook.html', category_id=category_id,
-                               book_id=book_id, book=deletedBook)
+                               book_id=book_id, book=deletedBook, form=form)
 # [END Routes]

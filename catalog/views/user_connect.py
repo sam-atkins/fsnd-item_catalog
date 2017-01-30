@@ -4,15 +4,15 @@ Blueprint: user_admin
 """
 
 # [START Imports]
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask import session as login_session
 import random
 import string
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import session as login_session
 
 # OAuth
+from flask import make_response
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
-from flask import make_response
 import httplib2
 import requests
 import json
@@ -128,7 +128,8 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: \
+    150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
@@ -137,7 +138,10 @@ def gconnect():
 # OAuth disconnect - gdisconnect
 @user_admin.route('/gdisconnect')
 def gdisconnect():
-    # Only disconnect a connected user.
+    """
+    Disconnects a user connected via Google Plus OAuth
+    Note, only disconnects a connected user
+    """
     credentials = login_session.get('credentials')
     if credentials is None:
         response = make_response(

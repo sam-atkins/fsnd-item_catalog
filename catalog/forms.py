@@ -3,20 +3,23 @@ Classes to enable helper methods to validate form entry by users
 """
 
 # [START Imports]
-from wtforms import Form, StringField, validators
 from flask import session
+from wtforms import Form, StringField, validators
 from wtforms.csrf.session import SessionCSRF
-# import config
+import config
 
 # [END Imports]
 
 
 # [START Form Validation]
 class BaseForm(Form):
+    """BaseFrom with Meta to enable CSRF protection"""
     class Meta:
+        """CSRF context is available as inherited by other forms using BaseForm
+        """
         csrf = True
         csrf_class = SessionCSRF
-        csrf_secret = b'top_secret'
+        csrf_secret = config.CSRF_SECRET_KEY
 
         @property
         def csrf_context(self):

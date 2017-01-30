@@ -23,6 +23,7 @@ category_admin = Blueprint('category_admin', __name__)
 # show one categgry and all books in the category
 @category_admin.route('/category/<int:category_id>/')
 def showCategory(category_id):
+    """Displays the category with all books within the category"""
     category = db_session.query(Category).filter_by(id=category_id).one()
     books = db_session.query(Book).filter_by(category_id=category_id).all()
     return render_template('categorybooks.html',
@@ -33,15 +34,16 @@ def showCategory(category_id):
 # new category
 @category_admin.route('/category/new', methods=['GET', 'POST'])
 def newCategory():
+    """Allows a logged in user to create a new category"""
     if 'username' not in login_session:
         return redirect('/login')
     form = CategoryForm(request.form)
     if request.method == 'POST' and form.validate():
-        newCategory = Category(name=request.form['name'],
-                               user_id=login_session['user_id'])
-        db_session.add(newCategory)
+        new_category = Category(name=request.form['name'],
+                                user_id=login_session['user_id'])
+        db_session.add(new_category)
         db_session.commit()
-        flash('New Category %s Successfully Created' % newCategory.name)
+        flash('New Category %s Successfully Created' % new_category.name)
         return redirect(url_for('homePage.index'))
     return render_template('/newcategory.html', form=form)
 
@@ -50,13 +52,17 @@ def newCategory():
 @category_admin.route('/category/<int:category_id>/edit',
                       methods=['GET', 'POST'])
 def editCategory(category_id):
+    """Allows a category to be edited, with local permissions:
+    user must be logged in and original creator of the category
+    """
     editedCategory = db_session.query(Category).filter_by(id=category_id).one()
     form = CategoryForm(request.form)
     if 'username' not in login_session:
         return redirect('/login')
     if editedCategory.user_id != login_session['user_id']:
         flash('You are not authorised to edit this category.')
-    return redirect(url_for('book_admin.showBooks', category_id=category_id))
+        return redirect(url_for('category_admin.showCategory',
+                                category_id=category_id))
     if request.method == 'POST' and form.validate():
         editedCategory.name = request.form['name']
         db_session.add(editedCategory)
@@ -72,13 +78,18 @@ def editCategory(category_id):
 @category_admin.route('/category/<int:category_id>/delete',
                       methods=['GET', 'POST'])
 def deleteCategory(category_id):
+    """Allows a category to be deleted, with local permissions:
+    user must be logged in and original creator of the category
+    """
     deletedCategory = db_session.query(
         Category).filter_by(id=category_id).one()
+    form = CategoryForm(request.form)
     if 'username' not in login_session:
         return redirect('/login')
     if deletedCategory.user_id != login_session['user_id']:
         flash('You are not authorised to delete this category.')
-    return redirect(url_for('book_admin.showBooks', category_id=category_id))
+        return redirect(url_for('category_admin.showCategory',
+                                category_id=category_id))
     if request.method == 'POST':
         db_session.delete(deletedCategory)
         db_session.commit()
@@ -86,5 +97,5 @@ def deleteCategory(category_id):
         return redirect(url_for('homePage.index'))
     else:
         return render_template('/deletecategory.html',
-                               category=deletedCategory)
+                               category=deletedCategory, form=form)
 # [END Routes]

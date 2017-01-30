@@ -4,7 +4,7 @@ Used for dev purposes
 """
 
 # [START imports]
-from database import db_session, User, Category, Book
+from catalog.database import db_session, User, Category, Book
 # [END imports]
 
 

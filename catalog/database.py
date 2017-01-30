@@ -3,16 +3,15 @@ Database set-up script for item catalogue
 """
 
 # [START Imports]
+from datetime import datetime
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy import create_engine
-from datetime import datetime
 # [END Imports]
 
 
-# [START Db engine and session]
-Base = declarative_base()
+base = declarative_base()
 
 # no users; dev 1
 # engine = create_engine(
@@ -36,7 +35,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 # [END Db engine and session]
 
 
-class User(Base):
+class User(base):
     """
     Table to store User information
     """
@@ -48,7 +47,7 @@ class User(Base):
     picture = Column(String(250))
 
 
-class Category(Base):
+class Category(base):
     """
     Table to store categories used to classify the books
     Inputs required category_name
@@ -72,7 +71,7 @@ class Category(Base):
         }
 
 
-class Book(Base):
+class Book(base):
     """
     Table to store books
     Inputs required book_name; and foreign key = category_name
@@ -107,4 +106,4 @@ class Book(Base):
         }
 
 
-Base.metadata.create_all(engine)
+base.metadata.create_all(engine)
