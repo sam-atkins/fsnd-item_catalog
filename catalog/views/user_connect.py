@@ -17,7 +17,7 @@ import httplib2
 import requests
 import json
 
-from catalog.userhelp import getUserID, createUser
+from catalog.userhelp import get_user_id, create_user
 # [END Imports]
 
 
@@ -116,9 +116,9 @@ def gconnect():
     login_session['provider'] = 'google'
 
     # see if user exists, if it doesn't make a new one
-    user_id = getUserID(data["email"])
+    user_id = get_user_id(data["email"])
     if not user_id:
-        user_id = createUser(login_session)
+        user_id = create_user(login_session)
     login_session['user_id'] = user_id
 
     # refactor after testing to 'login loading' page
