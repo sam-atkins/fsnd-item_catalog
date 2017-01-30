@@ -15,7 +15,7 @@
 
     
     <form method="post">
-    {# {{ form.csrf_token }} #}
+    {{ form.csrf_token }}
             <div>Edit Book Title: {{ form.name(class="form_placeholder", value=book.name) }} </div>
 
             {% if form.name.errors %}

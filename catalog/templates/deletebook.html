@@ -6,7 +6,7 @@
     </div>
     <br>
     <form method="post">
-    {# {{ form.csrf_token }} #}
+    {{ form.csrf_token }}
             <button type="submit">Delete</button>
             <a href="{{url_for('category_admin.showCategory', category_id=category_id)}}">Cancel</a>
     </form>

@@ -13,7 +13,7 @@
     <br>
     <br>
     <form method="post">
-    {# {{ form.csrf_token }} #}
+    {{ form.csrf_token }}
         <div>
             <div>Edit Category: {{ form.name(class="form_placeholder", value=category.name) }} </div>
 

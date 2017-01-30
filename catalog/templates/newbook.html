@@ -10,7 +10,7 @@
     </div>
 
     <form method="post">
-        {# {{ form.csrf_token }} #}
+        {{ form.csrf_token }}
             <div>Book Title: {{ form.name(class="form_placeholder") }}</div>
 
             {% if form.name.errors %}
