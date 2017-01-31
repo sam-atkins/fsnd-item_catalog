@@ -111,3 +111,12 @@ This project is not live (hosted) so screenshots are included below:
 
 **Delete**
 ![Delete](/docs/deletebook.png?raw=true "Delete")
+
+**API JSON - Categories**
+![API JSON Categories](/docs/json_categories.png?raw=true "API JSON Categories")
+
+**API JSON - Category with books**
+![API JSON Category with books](/docs/json_category_books.png?raw=true "API JSON Category with books")
+
+**API JSON Book- **
+![API JSON Book](/docs/json_book.png?raw=true "API JSON Book")
