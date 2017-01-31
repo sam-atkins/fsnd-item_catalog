@@ -1,25 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "partials/header.html" %}
-    this is the new category page
     <br>
     <a href="{{url_for('homePage.index')}}">Home</a>
     <br>
+    <br>
+    <div class="col=sm-10 col-sm-offset-2">
+        <h2>Add a new category</h2>
+    </div>
 
-    <form method="POST">
+    <form class="form-horizontal" method="POST">
         {{ form.csrf_token }}
-        <div>New Category: {{ form.name(class="form_placeholder") }}</div>
 
-        {% if form.name.errors %}
+        <div class="form-group">
+            <label class="col-sm-2 control-label">New Category:</label>
+            <div class="col-sm-10">
+            {{ form.name(class="form-control") }}
+            </div> 
+            {% if form.name.errors %}
+            <div class="col-sm-10 col-sm-offset-2">
             <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            </div>
         {% endif %}
+        </div>
         
-        <button type="submit">Create</button>
-        <a href="{{url_for('homePage.index')}}">Cancel</a>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success">Create</button>
+            <a class="btn btn-default" href="{{url_for('homePage.index')}}">Cancel</a>
+        </div>
     </form>
 
-    <br>
-    <br>
 
 {% include "partials/footer.html" %}
 {% endblock content %}
