@@ -17,9 +17,9 @@ base = declarative_base()
 # engine = create_engine(
 #     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv1.db')
 
-# with users; dev 2
+# with users; dev >2
 engine = create_engine(
-    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv2.db')
+    'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv3.db')
 
 
 db_session = scoped_session(sessionmaker(autocommit=False,
