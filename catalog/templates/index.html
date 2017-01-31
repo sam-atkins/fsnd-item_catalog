@@ -32,7 +32,7 @@
   <div class="col-md-5">
       <h2>Latest Items:</h2>
       {% for book in books  %}
-          <a href="{{url_for('book_admin.theBook', book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
+          <a href="{{url_for('book_admin.theBook', category_id=book.category_id, book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
           <br>
           <br>
       {% endfor %}

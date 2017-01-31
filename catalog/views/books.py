@@ -24,11 +24,11 @@ book_admin = Blueprint('book_admin', __name__)
 
 # [START Routes]
 # display one book
-@book_admin.route('/book/<int:book_id>')
-def theBook(book_id):
+@book_admin.route('/category/<int:category_id>/book/<int:book_id>')
+def theBook(category_id, book_id):
     """Displays page showing one book including all the book's info"""
     book = db_session.query(Book).filter_by(id=book_id).one()
-    return render_template('book.html', book=book)
+    return render_template('book.html', category_id=category_id, book=book)
 
 
 # new book

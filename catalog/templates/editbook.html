@@ -72,7 +72,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button class="btn btn-success" type="submit">Submit</button>
-                <a class="btn btn-default" href="{{url_for('category_admin.showCategory', category_id=category_id)}}">Cancel</a>
+                <a role="button" class="btn btn-default" href="{{url_for('book_admin.theBook', category_id=book.category_id, book_id=book.id)}}">Cancel</a>
             </div>
         </div>
     </form>
