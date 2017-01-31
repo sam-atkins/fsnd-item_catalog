@@ -13,6 +13,7 @@ from sqlalchemy import asc
 
 # Helpers
 from catalog.forms import BookForm
+from catalog.decorators import login_required
 
 # Db
 from catalog.database import db_session, Category, Book
@@ -33,14 +34,13 @@ def theBook(category_id, book_id):
 
 # new book
 @book_admin.route('/book/new', methods=['GET', 'POST'])
+@login_required
 def newBook():
     """Create a new book, with control that user must be logged in
 
     """
     categories = db_session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST' and form.validate():
         c = request.form['category']
         c_submitted = db_session.query(Category).filter(
@@ -63,6 +63,7 @@ def newBook():
 # edit book
 @book_admin.route('/category/<int:category_id>/book/<int:book_id>/edit',
                   methods=['GET', 'POST'])
+@login_required
 def editBook(category_id, book_id):
     """Edit a book, with local permissions:
     User must be logged in and created of the original book entry
@@ -70,8 +71,6 @@ def editBook(category_id, book_id):
     editedBook = db_session.query(Book).filter_by(id=book_id).one()
     categories = db_session.query(Category).order_by(asc(Category.name))
     form = BookForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
     if editedBook.user_id != login_session['user_id']:
         flash('You are not authorised to edit this book.')
         return redirect(url_for('category_admin.showCategory',
@@ -107,13 +106,12 @@ def editBook(category_id, book_id):
 # delete book
 @book_admin.route('/category/<int:category_id>/book/<int:book_id>/delete',
                   methods=['GET', 'POST'])
+@login_required
 def deleteBook(category_id, book_id):
     """Manages book deletion. Local Permissions:
     Must be logged in and user that created the book"""
     deletedBook = db_session.query(Book).filter_by(id=book_id).one()
     form = BookForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
     if deletedBook.user_id != login_session['user_id']:
         flash('You are not authorised to delete this book.')
         return redirect(url_for('category_admin.showCategory',

@@ -10,6 +10,7 @@ from flask import session as login_session
 
 # Helpers
 from catalog.forms import CategoryForm
+from catalog.decorators import login_required
 
 # Db
 from catalog.database import db_session, Category, Book
@@ -33,10 +34,9 @@ def showCategory(category_id):
 
 # new category
 @category_admin.route('/category/new', methods=['GET', 'POST'])
+@login_required
 def newCategory():
     """Allows a logged in user to create a new category"""
-    if 'username' not in login_session:
-        return redirect('/login')
     form = CategoryForm(request.form)
     if request.method == 'POST' and form.validate():
         new_category = Category(name=request.form['name'],
@@ -51,14 +51,13 @@ def newCategory():
 # edit category
 @category_admin.route('/category/<int:category_id>/edit',
                       methods=['GET', 'POST'])
+@login_required
 def editCategory(category_id):
     """Allows a category to be edited, with local permissions:
     user must be logged in and original creator of the category
     """
     editedCategory = db_session.query(Category).filter_by(id=category_id).one()
     form = CategoryForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
     if editedCategory.user_id != login_session['user_id']:
         flash('You are not authorised to edit this category.')
         return redirect(url_for('category_admin.showCategory',
@@ -77,6 +76,7 @@ def editCategory(category_id):
 # delete category
 @category_admin.route('/category/<int:category_id>/delete',
                       methods=['GET', 'POST'])
+@login_required
 def deleteCategory(category_id):
     """Allows a category to be deleted, with local permissions:
     user must be logged in and original creator of the category
@@ -84,8 +84,6 @@ def deleteCategory(category_id):
     deletedCategory = db_session.query(
         Category).filter_by(id=category_id).one()
     form = CategoryForm(request.form)
-    if 'username' not in login_session:
-        return redirect('/login')
     if deletedCategory.user_id != login_session['user_id']:
         flash('You are not authorised to delete this category.')
         return redirect(url_for('category_admin.showCategory',
