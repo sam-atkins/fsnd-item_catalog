@@ -32,7 +32,7 @@
         <div>
             {% for book in books  %}
                 <h2>{{book.name}}</h2>
-                <h3>By: {{book.author}}</h3>
+                <h3>By {{book.author}}</h3>
                 <a role="button" class="btn btn-primary btn-sm" href="{{url_for('book_admin.theBook', category_id=category.id, book_id=book.id)}}">Read more...</a>
                 <a role="button" class="btn btn-default btn-sm" href="{{url_for('book_admin.editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
                 <a role="button" class="btn btn-default btn-sm" href="{{url_for('book_admin.deleteBook', category_id=category.id, book_id=book.id)}}">Delete Book</a>
