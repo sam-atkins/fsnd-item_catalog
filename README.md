@@ -39,7 +39,7 @@ This project is part of my **Udacity FullStack NanoDegree**.
 
 This app was built using a Vagrant Virtual Box and runs on Python 2 using the Flask Microframework. 
 
-In addition to Flask, key modules include WTForms and SQLAlchemy.
+In addition to Flask, key packages include WTForms and SQLAlchemy.
 
 #### 2. Configuration
 
