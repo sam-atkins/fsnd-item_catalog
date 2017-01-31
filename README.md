@@ -24,29 +24,66 @@ This project is part of my **Udacity FullStack NanoDegree**.
 **Submitted for Udacity code review**
 
 
-## Instructions
+## Set-Up Instructions
 
-### Application set-up and run
+### Summary
+
+1. Requirements 
+2. Configuration
+3. Vagrant
+4. Database set-up
+5. Run Time
+
+
+#### 1. Requirements
 
 This app was built using a Vagrant Virtual Box and runs on Python 2 using the Flask Microframework. 
 
-To run the app, fire up Vagrant (see info below), and enter the command `run.py`. The app server will launch. Navigate to localhost:8000 in your browser to see the app.
+In addition to Flask, key modules include WTForms and SQLAlchemy.
 
-Note, ensure the app has a `config.py` in the repo root e.g.
+#### 2. Configuration
+
+There are two files which need to be configured. 
+
+First, the `config.py` file is located in the repo root directory. Consider adding an `APP_SECRET_KEY` and a `CSRF_SECRET_KEY`, and if applicable add the `config.py` file to `.gitignore
+
+Example `config.py` file below:
 
 ```
+APP_SECRET_KEY = 'add_a_super_secret_key'
 app_debug = True
 app_run_host = '0.0.0.0'
 app_run_port = port = 8000
-
-# also add secret stuff! 
+CSRF_SECRET_KEY = b'add_a_top_secret_key'
 ```
 
-You will also need a `client_secrets.json` with Google OAuth info including `client_id` and `client_secret`.
+Second, is the `client_secrets.json` file. This should also be saved in the repo root directory. This should include the Google OAuth API information. See this link for Google info.
 
-### Vagrant
+The file will look like this. Add in your `client_id` and `client_secret`.
 
-Move to the project folder:
+If you are using a different port than 8000 for dev, change this in your Google OAuth API App settings and in the JSON file.
+
+```
+{
+    "web": {
+        "client_id": "ADD_CLIENT_ID",
+        "project_id": "book-catalogue-app",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://accounts.google.com/o/oauth2/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "ADD_SECRET",
+        "redirect_uris": ["http://localhost:8000"],
+        "javascript_origins": ["http://localhost:8000"]
+    }
+}
+```
+
+
+#### 3. Vagrant
+
+Next, fire up Vagrant.
+
+Move to the project folder e.g.:
 ```
 $ cd /vagrant/fsnd-item_catalog
 ```
@@ -68,19 +105,42 @@ $ cd /vagrant
 # then move to the project folder:
 $ cd fsnd-item_catalog
 
-# alternatively
+# alternatively, just do this
 $ cd /vagrant/fsnd-item_catalog
 ```
 
-To exit/stop Vagrant:
+For later on, to exit/stop Vagrant:
 ```
+# to exit the virtual box:
 $ exit
+
+# to stop Vagrant and not lose any data
 $ vagrant halt
 ```
 
 
+#### 4. Database set-up
+
+Once Vagrant is up and you are in the project repo, here’s how to set-up the database:
+
+```
+# move to the catalog folder
+$ cd catalog
+
+# execute the bookgenerator file
+# this populates the database with some initial data
+$ python bookgenerator.py
+```
+
+
+
+#### 4. Run Time
+
+Ensure you are back in the root directory and then enter the command `run.py`. The app server will launch. Navigate to `localhost:8000` in your browser to see the app.
+
+
 ## Demo
-This project is not live (hosted) so screenshots are included below:
+This project is not live so screenshots are included below:
 
 **Home Page**
 ![Home Page](/docs/homepage.png?raw=true "Home Page")
