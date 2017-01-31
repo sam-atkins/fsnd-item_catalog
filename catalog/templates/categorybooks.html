@@ -2,47 +2,46 @@
 {% block content %}
 {% include "partials/header.html" %}
 
-<div>
-    <p>This is the page listing all books in a category</p>
-</div>
 
-<div class = 'flash'>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li> <strong> {{ message }} </strong> </li>
+<div class="container-fluid">
+    <div class="col-md-12">
+    
+        <h1>Category: {{category.name}} ({{books|count}} books)</h1>
+        
+        <div>
+            <a role="button" class="btn btn-default btn-sm" href="{{url_for('category_admin.editCategory', category_id=category.id)}}">Edit category</a>
+
+            <a role="button" class="btn btn-default btn-sm" href="{{url_for('category_admin.deleteCategory', category_id=category.id)}}">Delete category</a>
+            <br>
+        </div>
+        
+        <br>
+        <div class = 'flash'>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li> <strong> {{ message }} </strong> </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+
+        <div>
+            {% for book in books  %}
+                <h2>{{book.name}}</h2>
+                <h3>By: {{book.author}}</h3>
+                <a role="button" class="btn btn-primary btn-sm" href="{{url_for('book_admin.theBook', book_id=book.id)}}">Read more...</a>
+                <a role="button" class="btn btn-default btn-sm" href="{{url_for('book_admin.editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
+                <a role="button" class="btn btn-default btn-sm" href="{{url_for('book_admin.deleteBook', category_id=category.id, book_id=book.id)}}">Delete Book</a>
+                
+                <br>
+                <br>
             {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
-</div>
-
-<div>
-    <h1>Category: {{category.name}} ({{books|count}} books)</h1>
-    
-    <div>
-        <a href="{{url_for('category_admin.editCategory', category_id=category.id)}}">Edit category</a>
-        <br>
-        <a href="{{url_for('category_admin.deleteCategory', category_id=category.id)}}">Delete category</a>
-        <br>
+        </div>
     </div>
-    
-    <div>
-        {% for book in books  %}
-            <h2>{{book.name}}</h2>
-            <h3>By: {{book.author}}</h3>
-            <a href="{{url_for('book_admin.theBook', book_id=book.id)}}">Read more...</a>
-            <a href="{{url_for('book_admin.editBook', category_id=category.id, book_id=book.id)}}">Edit Book</a>
-            <a href="{{url_for('book_admin.deleteBook', category_id=category.id, book_id=book.id)}}">Delete Book</a>
-            
-            <br>
-            <br>
-        {% endfor %}
-    </div>
-
-
-    <a href="{{url_for('homePage.index')}}">Home</a>
 </div>
 
 {% include "partials/footer.html" %}
