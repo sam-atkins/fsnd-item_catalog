@@ -38,6 +38,6 @@ def categoryWithBooksJSON(category_id):
     Generates JSON for a category with all books in the category
     Specified by the category_id
     """
-    books = db_session.query(Book).filter_by(id=category_id).all()
+    books = db_session.query(Book).filter_by(category_id=category_id).all()
     return jsonify(Category=[b.serialize for b in books])
 # [END JSON API Endpoints]
