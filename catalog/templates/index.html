@@ -3,7 +3,7 @@
 {% include "partials/header.html" %}
 
 <div>
-    <p>This is the home page.</p>
+    <h1 class="text-center" >Book Catalogue</h1>
 </div>
 
 <div class = 'flash'>
@@ -18,34 +18,37 @@
     {% endwith %}
 </div>
 
-<div>
-    <h1>Categories:</h1>
 
-    {% for category in categories  %}
-        <a href="{{url_for('category_admin.showCategory', category_id=category.id)}}">{{category.name}}</a>
-        <br>
-        <br>
-    {% endfor %}
-
-    <br>
-    <br>
-    <a href="{{url_for('category_admin.newCategory')}}">Add new category</a>
-    <br>
-    <a href="{{url_for('book_admin.newBook')}}">Add new book</a>
-    <br>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-5">
+      <h2>Categories:</h2>
+      {% for category in categories  %}
+          <a href="{{url_for('category_admin.showCategory', category_id=category.id)}}">{{category.name}}</a>
+          <br>
+          <br>
+      {% endfor %}
+  </div>
+  <div class="col-md-5">
+      <h2>Latest Items:</h2>
+      {% for book in books  %}
+          <a href="{{url_for('book_admin.theBook', book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
+          <br>
+          <br>
+      {% endfor %}
+  </div>
+  <div class="form-group">
+    <div class="col-md-2">
+      <br>
+      <a role="button" class="btn btn-default btn-block" href="{{url_for('category_admin.newCategory')}}">Add category</a>
+      <br>
+      <a role="button" class="btn btn-default btn-block" href="{{url_for('book_admin.newBook')}}">Add book</a>
+      <br>
+    </div>
+  </div>
 
 </div>
-
-<div>
-    <h1>Latest Items:</h1>
-
-    {% for book in books  %}
-        <a href="{{url_for('book_admin.theBook', book_id=book.id)}}">{{book.name}} by {{book.author}} </a>
-        <br>
-        <br>
-    {% endfor %}
 </div>
-
 
 {% include "partials/footer.html" %}
 
