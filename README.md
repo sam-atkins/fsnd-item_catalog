@@ -87,3 +87,5 @@ This project is not live so screenshots are included below:
 ![add_category](cubiio/fsnd-item_catalog/blob/master/docs/addcategory.png?raw=true "Optional Title")
 
 ![add_category](/blob/master/docs/addcategory.png?raw=true "Optional Title")
+
+![Add Category](https://github.com/cubiio/fsnd-item_catalog/blob/master/docs/addcategory.png)
