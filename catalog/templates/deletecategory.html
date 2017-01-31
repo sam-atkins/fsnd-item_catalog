@@ -8,8 +8,9 @@
     <br>
     <form method="post">
     {{ form.csrf_token }}
-            <button type="submit">Delete</button>
-            <a href="{{url_for('homePage.index')}}">Cancel</a>
+    
+            <button class="btn btn-danger" type="submit">Delete</button>
+            <a class="btn btn-default" href="{{url_for('homePage.index')}}">Cancel</a>
     </form>
 {% include "partials/footer.html" %}
 {% endblock content %}
