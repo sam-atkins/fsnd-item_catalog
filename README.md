@@ -4,10 +4,12 @@
 
 This project is part of my **Udacity FullStack NanoDegree**.
 
-### Project requirements:
+### Project specification:
 
 * OAuth authentication and authorisation for users
-* Local permission systems to create, edit and delete items
+* `CRUD` operations i.e. users can created, edit and delete Categories and Books
+* Local permission systems for `CRUD` operations
+* CSRF protection on `CRUD` operations
 * API: JSON endpoints 
 
 ### Built with:
@@ -15,18 +17,32 @@ This project is part of my **Udacity FullStack NanoDegree**.
 * Python
 * Flask
 * Jinja2 templates
+* Bootstrap
 
 ### Status
 
-WIP
+**Submitted for Udacity code review**
 
 
 ## Instructions
 
-### Application set-up / run
+### Application set-up and run
 
-**TODO**
+This app was built using a Vagrant Virtual Box and runs on Python 2 using the Flask Microframework. 
 
+To run the app, fire up Vagrant (see info below), and enter the command `run.py`. The app server will launch. Navigate to localhost:8000 in your browser to see the app.
+
+Note, ensure the app has a `config.py` in the repo root e.g.
+
+```
+app_debug = True
+app_run_host = '0.0.0.0'
+app_run_port = port = 8000
+
+# also add secret stuff! 
+```
+
+You will also need a `client_secrets.json` with Google OAuth info including `client_id` and `client_secret`.
 
 ### Vagrant
 
@@ -46,13 +62,13 @@ $ vagrant ssh
 
 Once Vagrant is up:
 ```
-# move to the vagrant folder:
+# cd to the vagrant shared folder:
 $ cd /vagrant
 
-# move to the project folder:
+# then move to the project folder:
 $ cd fsnd-item_catalog
 
-# or 
+# alternatively
 $ cd /vagrant/fsnd-item_catalog
 ```
 
@@ -61,4 +77,10 @@ To exit/stop Vagrant:
 $ exit
 $ vagrant halt
 ```
+
+
+## Demo
+This project is not live so screenshots are included below:
+
+![add_category](/fsnd-item_catalog/blob/master/docs/addcategory.png?raw=true "Optional Title")
 
