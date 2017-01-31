@@ -80,9 +80,34 @@ $ vagrant halt
 
 
 ## Demo
-This project is not live so screenshots are included below:
+This project is not live (hosted) so screenshots are included below:
 
+**Home Page**
+![Home Page](/docs/homepage.png?raw=true "Home Page")
 
-![add_category](/docs/addcategory.png?raw=true "Optional Title")
+**Category Page**
+![Category Page](/docs/categorypage.png?raw=true "Category Page")
 
-![Add Category](https://github.com/cubiio/fsnd-item_catalog/blob/master/docs/addcategory.png)
+**Book Page**
+![Book Page](/docs/bookpage.png?raw=true "Book Page")
+
+**Login**
+![Login](/docs/login.png?raw=true "Login")
+
+**Successful Login**
+![Successful Login](/docs/success_login.png?raw=true "Successful Login")
+
+**Add Category**
+![Add Category](/docs/addcategory.png?raw=true "Add Category")
+
+**Add Book**
+![Add Book](/docs/addnewbook.png?raw=true "Add Book")
+
+**Flash Messaging**
+![Flash Messaging](/docs/flash_message.png?raw=true "Flash Messaging")
+
+**Edit**
+![Edit](/docs/editbook.png?raw=true "Edit")
+
+**Delete**
+![Delete](/docs/deletebook.png?raw=true "Delete")
