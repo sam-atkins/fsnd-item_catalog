@@ -57,7 +57,11 @@ app_run_port = port = 8000
 CSRF_SECRET_KEY = b'add_a_top_secret_key'
 ```
 
-Second, is the `client_secrets.json` file. This should also be saved in the repo root directory. This should include the Google OAuth API information. See this link for Google info.
+Second, is the `client_secrets.json` file. This should also be saved in the repo root directory. This should include the Google OAuth API information.
+
+See this link for Google info:
+
+[Using OAuth 2.0 to Access Google APIs - Google Developers](https://developers.google.com/identity/protocols/OAuth2)
 
 The file will look like this. Add in your `client_id` and `client_secret`.
 
