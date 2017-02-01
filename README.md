@@ -21,7 +21,7 @@ This project is part of my **Udacity FullStack NanoDegree**.
 
 ### Status
 
-**Submitted for Udacity code review**
+**Meets Udacity code review specifications**
 
 
 ## Set-Up Instructions
