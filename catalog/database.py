@@ -21,6 +21,10 @@ base = declarative_base()
 engine = create_engine(
     'sqlite:////vagrant/fsnd-item_catalog/catalog/cataloguebooksv3.db')
 
+# Ubuntu, Apache, PostgreSQL config
+# engine = create_engine(
+#     'postgresql+psycopg2://catalog:password@localhost/catalog')
+
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
